@@ -9,6 +9,8 @@ import (
 	"strings"
 )
 
+var buildTime = "dev"
+
 type CaptionRequest struct {
 	GifURL string `json:"gif_url"`
 	Text   string `json:"text"`
@@ -31,7 +33,7 @@ func main() {
 
 func homeHandler(w http.ResponseWriter, r *http.Request) {
 	user, pass, ok := r.BasicAuth()
-    if !ok || user != "alex" || pass != os.Getenv("AUTH_PASSWORD") {
+    if !ok || user != os.Getenv("AUTH_USERNAME") || pass != os.Getenv("AUTH_PASSWORD") {
         w.Header().Set("WWW-Authenticate", `Basic realm="Gophy"`)
         w.WriteHeader(401)
         w.Write([]byte("Unauthorized"))
@@ -278,6 +280,9 @@ func homeHandler(w http.ResponseWriter, r *http.Request) {
         a.click();
     };
     </script>
+    <footer style="margin-top:40px;text-align:center;color:#999;font-size:12px;">
+        ` + buildTime + `
+    </footer>
 </body>
 </html>
     `
@@ -287,7 +292,7 @@ func homeHandler(w http.ResponseWriter, r *http.Request) {
 
 func searchHandler(w http.ResponseWriter, r *http.Request) {
 	user, pass, ok := r.BasicAuth()
-    if !ok || user != "alex" || pass != os.Getenv("AUTH_PASSWORD") {
+    if !ok || user != os.Getenv("AUTH_USERNAME") || pass != os.Getenv("AUTH_PASSWORD") {
         w.Header().Set("WWW-Authenticate", `Basic realm="Gophy"`)
         w.WriteHeader(401)
         w.Write([]byte("Unauthorized"))
@@ -311,7 +316,7 @@ func searchHandler(w http.ResponseWriter, r *http.Request) {
 
 func caption(w http.ResponseWriter, r *http.Request) {
 	user, pass, ok := r.BasicAuth()
-    if !ok || user != "alex" || pass != os.Getenv("AUTH_PASSWORD") {
+    if !ok || user != os.Getenv("AUTH_USERNAME") || pass != os.Getenv("AUTH_PASSWORD") {
         w.Header().Set("WWW-Authenticate", `Basic realm="Gophy"`)
         w.WriteHeader(401)
         w.Write([]byte("Unauthorized"))
